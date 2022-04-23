@@ -3,7 +3,7 @@ import bus from "../images/4.jpg"
 import tour from "../images/2.jpg"
 import college from "../images/3.jpg"
 
-import '../css/dash.css';
+// import '../css/dash.css';
 
 function Dashboard() {
     return (

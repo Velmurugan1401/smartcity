@@ -4,6 +4,7 @@ import "../node_modules/bootstrap/dist/css/bootstrap.min.css"
 import Home from './componets/Home'
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import Dashboard from './componets/Dashboard';
+import Admin from './componets/admin';
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
       < BrowserRouter >
       <Routes>
             <Route path="/" element={<Home></Home>} />
+            <Route path="/students" element={<Admin />} />
             <Route path="/students" element={<Dashboard />} />
             <Route path="/employes" element={<Dashboard />} />
             <Route path="/tourist" element={<Dashboard />} />
