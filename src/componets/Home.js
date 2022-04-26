@@ -32,7 +32,7 @@ function Home() {
                 </div>
                 <div className='row'>
                     <div className='col-4'>
-                        <div class="card">
+                        <div class="card car1" >
                             <div class="card-img">
 
                                 <img src={employe} />
@@ -52,7 +52,7 @@ function Home() {
                         </div>
                     </div>
                     <div className='col-4'>
-                        <div class="card">
+                        <div class="card car1">
                             <div class="card-img">
 
                                 <img src={worker} />
@@ -71,7 +71,7 @@ function Home() {
                         </div>
                     </div>
                     <div className='col-4'>
-                        <div class="card">
+                        <div class="card car1">
                             <div class="card-img">
                                 {/* <Carousel>
                                 <Carousel.Item interval={1000}>

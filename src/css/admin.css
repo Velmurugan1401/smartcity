@@ -11,3 +11,9 @@ border: 1px solid;
 .sc-hKMtZM {
     border-right: 1px solid;
 }
+.form-control:focus,.form-select:focus{
+    box-shadow:none ;
+}
+.delbtn{
+    margin-left: 10px !important;
+}

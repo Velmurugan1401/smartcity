@@ -15,7 +15,7 @@
   }
   
   
-  .card {
+  .car1 {
     width: 90%;
     max-width: 450px;
     background-color: #FFF;
@@ -23,11 +23,11 @@
     border-radius: 10px;
     transition: box-shadow .3s linear;
   }
-  .card:hover {
+  .car1:hover {
     box-shadow: 0 0 35px rgba(0, 0, 0, .3);
   }
   
-  .card .card-img {
+  .car1 .card-img {
     border-radius: 10px;
     overflow: hidden;
     height: 160px;
@@ -35,22 +35,22 @@
     transform: translateY(-15%);
     transition: box-shadow .3s linear;
   }
-  .card:hover .card-img {
+  .car1:hover .card-img {
     box-shadow: none;
   }
-  .card .card-img img {
+  .car1 .card-img img {
     width: 100%;
     display: block;
   }
   
-  .card .card-content {
+  .car1 .card-content {
     text-align: center;
   }
-  .card .card-content .big-title {
+  .car1 .card-content .big-title {
     color: #333;
     font-size: 1.3rem;
   }
-  .card .card-content .medium-title {
+  .car1 .card-content .medium-title {
     color: #999;
     font-size: .85rem;
     margin-top: .3rem;
