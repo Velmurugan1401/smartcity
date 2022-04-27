@@ -64,7 +64,7 @@ function Admin() {
     const [id, setid] = useState("")
     const [uplaces, setuplace] = useState("d-none")
     const [errormsg,seterrmsg] = useState("")
-
+    const [succmessage,setsuccmessage] = useState("Place added successfully!")
     const [add, setadd] = useState("")
     const [successmsg, setsuccessmsg] = useState("d-none")
     const addplace = () =>{
@@ -81,8 +81,10 @@ function Admin() {
                 "place_logo":placeimg
             }
             axios.post("http://localhost:7000/api/adduser",place).then((response) => {
+                setsuccmessage("Place added successfully!")
                 setadd("d-none")
                 setsuccessmsg("")
+                listall()
                 setTimeout(() => {
                     setShow(false)
                 }, 2000);
@@ -91,12 +93,28 @@ function Admin() {
 
     }
     const deletelist = (e) =>{
-        console.log(e.target.value)
+        
+        axios.post("http://localhost:7000/api/delete",{"id":e.target.value}).then((response) => {
+            setadd("d-none")
+            // setsuccessmsg("")
+
+            if(response.status){
+                setsuccmessage("Place deleted successfully!")
+            }else{
+                setsuccmessage("Error in delete")
+            }
+            setShow(true)
+            listall()
+            setTimeout(() => {
+                handleClose()
+            }, 2000);
+        });
+    
+
     }
     const listallbyid = (e) =>{
         setid(e.target.value)
         axios.post("http://localhost:7000/api/listbyid",{"id":e.target.value}).then((response) => {
-            console.log(response.data[0]);
             var datas = response.data[0]
             setname(datas.name)
             setcity(datas.city)
@@ -131,7 +149,6 @@ function Admin() {
       }, []);
     const listall = () => {
         axios.get("http://localhost:7000/api/listusers").then((response) => {
-            // console.log(response.data);
             var datas = []
             for (var i = 0; i < response.data.length; i++) {
                 datas.push({
@@ -170,8 +187,8 @@ function Admin() {
             "place_logo":placeimg,
             "id":id
         }
-        console.log(place)
         axios.post("http://localhost:7000/api/updateuser",place).then((response) => {
+            setsuccmessage("Place Updated successfully!")
             setadd("d-none")
             setsuccessmsg("")
             setTimeout(() => {
@@ -180,6 +197,7 @@ function Admin() {
         })
         setaplce("d-none")
         setuplace("")
+        listall()
     }
     const addmodal = (e) =>{
         e.preventDefault()
@@ -215,7 +233,7 @@ function Admin() {
                 </Modal.Header>
                 <Modal.Body>
                     <div className={'text-center '+ successmsg }>
-                        <h4>List added successfully !</h4>
+                        <h4>{succmessage}</h4>
                     </div>
                     <form className={add}>
                         <div className="row">
@@ -232,7 +250,7 @@ function Admin() {
                                 <input type="text" value={pincode} onChange={(e)=>{setpincode(e.target.value)}} className="form-control" placeholder="pincode" />
                             </div>
                             <div className="col-6 mb-2">
-                                <select class="form-select" value={persion} onClick={(e)=>{setpersion(e.target.value)}} aria-label="Default select example">
+                                <select class="form-select" value={persion} onChange={(e)=>{setpersion(e.target.value)}} aria-label="Default select example">
                                     <option selected>Select who needed this</option>
                                     <option value="student">Students</option>
                                     <option value="employe">Employes</option>
