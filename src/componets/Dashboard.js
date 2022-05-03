@@ -9,6 +9,8 @@ import Modal from 'react-bootstrap/Modal'
 import Button from 'react-bootstrap/Button'
 import React, { useState } from 'react';
 import '../css/dash.css';
+var CryptoJS = require("crypto-js");
+const En_key = "Admin1422"
 
 function Dashboard(props) {
   const [show, setShow] = useState(false);
@@ -228,7 +230,7 @@ function Dashboard(props) {
                                        <!-- title -->
                                        <tr>
                                           <td style="font-family: Helvetica, arial, sans-serif; font-size: 18px; color: #333333; text-align:left;line-height: 20px;" st-title="rightimage-title">
-                                             `+ placelists[0].name + `
+                                             `+ CryptoJS.AES.decrypt(placelists[0].name.toString(), En_key).toString(CryptoJS.enc.Utf8) + `
                                           </td>
                                        </tr>
                                      
@@ -277,7 +279,7 @@ function Dashboard(props) {
                                        <!-- content -->
                                        <tr>
                                           <td style="font-family: Helvetica, arial, sans-serif; font-size: 13px; color: #666666; text-align:left;line-height: 24px;" st-content="rightimage-paragraph">
-                                            `+ placelists[0].address + `
+                                            `+ CryptoJS.AES.decrypt(placelists[0].address.toString(), En_key).toString(CryptoJS.enc.Utf8)  + `
                                           </td>
                                        </tr>
                                        <tr>
@@ -295,7 +297,7 @@ function Dashboard(props) {
                                        <!-- content -->
                                        <tr>
                                           <td style="font-family: Helvetica, arial, sans-serif; font-size: 13px; color: #666666; text-align:left;line-height: 24px;" st-content="rightimage-paragraph">
-                                          `+ placelists[0].city + `
+                                          `+ CryptoJS.AES.decrypt(placelists[0].city.toString(), En_key).toString(CryptoJS.enc.Utf8)  + `
                                           </td>
                                        </tr>
                                        <tr>
@@ -313,7 +315,7 @@ function Dashboard(props) {
                                        <!-- content -->
                                        <tr>
                                           <td style="font-family: Helvetica, arial, sans-serif; font-size: 13px; color: #666666; text-align:left;line-height: 24px;" st-content="rightimage-paragraph">
-                                             `+ placelists[0].state + `
+                                             `+  CryptoJS.AES.decrypt(placelists[0].state.toString(), En_key).toString(CryptoJS.enc.Utf8) + `
                                           </td>
                                        </tr>
                                        <!-- end of content -->
@@ -456,12 +458,12 @@ function Dashboard(props) {
             <div class="col-lg-4">
               <div class="card ca1" tabindex="0">
                 <div class="card-image">
-                  <img src={student.place_logo} alt="" />
+                  <img src={ CryptoJS.AES.decrypt(student.place_logo.toString(), En_key).toString(CryptoJS.enc.Utf8) } alt="" />
                 </div>
                 <div class="card-content">
-                  <p class="kicker mb-2">{student.name}</p>
+                  <p class="kicker mb-2">{CryptoJS.AES.decrypt(student.name.toString(), En_key).toString(CryptoJS.enc.Utf8) }</p>
                   {/* <h2>Using Banner Stands To Increase Trade Show Traffic</h2> */}
-                  <p className='c-color text-truncate' ><img className='locationimg' src={location}></img>:  {student.address}</p>
+                  <p className='c-color text-truncate' ><img className='locationimg' src={location}></img>:  {CryptoJS.AES.decrypt(student.address.toString(), En_key).toString(CryptoJS.enc.Utf8) }</p>
                   {/* <p className='c-color'>City:  {student.city}</p> */}
                 </div>
                 <div class="card-footer">
@@ -489,20 +491,20 @@ function Dashboard(props) {
             <div className='row'>
 
               <div className='col-12'>
-                <img src={lists.place_logo}></img>
+                <img src={ CryptoJS.AES.decrypt(lists.place_logo.toString(), En_key).toString(CryptoJS.enc.Utf8) }></img>
               </div>
               <div className='col-12 mt-2'>
                 <h5>Address: </h5>
-                <p className='text-break'>{lists.address}</p>
+                <p className='text-break'>{CryptoJS.AES.decrypt(lists.address.toString(), En_key).toString(CryptoJS.enc.Utf8)}</p>
                 <div className='row'>
                   <div className='col-4'>
-                    <h5>City: </h5><p>{lists.city}</p>
+                    <h5>City: </h5><p>{CryptoJS.AES.decrypt(lists.city.toString(), En_key).toString(CryptoJS.enc.Utf8)}</p>
                   </div>
                   <div className='col-4'>
-                    <h5>State: </h5><p>{lists.state}</p>
+                    <h5>State: </h5><p>{CryptoJS.AES.decrypt(lists.state.toString(), En_key).toString(CryptoJS.enc.Utf8)}</p>
                   </div>
                   <div className='col-4'>
-                    <h5>Pincode: </h5><p>{lists.pincode}</p>
+                    <h5>Pincode: </h5><p>{CryptoJS.AES.decrypt(lists.pincode.toString(), En_key).toString(CryptoJS.enc.Utf8)}</p>
                   </div>
                   <div className='col-12 mt-2'>
                     <p className={'text-center '+success }>Mail Sent successfully!</p>

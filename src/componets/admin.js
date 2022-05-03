@@ -5,6 +5,8 @@ import { useState } from 'react';
 import Modal from 'react-bootstrap/Modal'
 import Button from 'react-bootstrap/Button'
 import React from 'react';
+var CryptoJS = require("crypto-js");
+const En_key = "Admin1422"
 
 const columns = [
     {
@@ -71,15 +73,19 @@ function Admin() {
         if(name == "" || name == null || city == "" || city==null || state == "" || state==null){
             seterrmsg("Please fill the all required filed !")
         }else{
+
+            // var bytes  = CryptoJS.AES.decrypt(ciphertext.toString(), En_key);
+            // var plaintext = bytes.toString(CryptoJS.enc.Utf8);
             var place = {
-                "name":name,
-                "city":city,
-                "state":state,
-                "pincode":pincode,
-                "address":address,
+                "name": CryptoJS.AES.encrypt(name, En_key).toString(),
+                "city":CryptoJS.AES.encrypt(city, En_key).toString(),
+                "state":CryptoJS.AES.encrypt(state, En_key).toString(),
+                "pincode":CryptoJS.AES.encrypt(pincode, En_key).toString(),
+                "address":CryptoJS.AES.encrypt(address, En_key).toString(),
                 "persion":persion,
-                "place_logo":placeimg
+                "place_logo":CryptoJS.AES.encrypt(placeimg, En_key).toString(),
             }
+            
             axios.post("http://localhost:7000/api/adduser",place).then((response) => {
                 setsuccmessage("Place added successfully!")
                 setadd("d-none")
@@ -93,11 +99,13 @@ function Admin() {
 
     }
     const deletelist = (e) =>{
-        
+        setaplce("d-none")
+        setuplace("d-none")
         axios.post("http://localhost:7000/api/delete",{"id":e.target.value}).then((response) => {
             setadd("d-none")
+            setsuccessmsg("")
             // setsuccessmsg("")
-
+            setsuccmessage("Place deleted successfully!")
             if(response.status){
                 setsuccmessage("Place deleted successfully!")
             }else{
@@ -116,17 +124,20 @@ function Admin() {
         setid(e.target.value)
         axios.post("http://localhost:7000/api/listbyid",{"id":e.target.value}).then((response) => {
             var datas = response.data[0]
-            setname(datas.name)
-            setcity(datas.city)
-            setstate(datas.state)
-            setaddress(datas.address)
+            setname( CryptoJS.AES.decrypt(datas.name.toString(), En_key).toString(CryptoJS.enc.Utf8))
+            setcity(CryptoJS.AES.decrypt(datas.city.toString(), En_key).toString(CryptoJS.enc.Utf8))
+            setstate(CryptoJS.AES.decrypt(datas.state.toString(), En_key).toString(CryptoJS.enc.Utf8))
+            setaddress(CryptoJS.AES.decrypt(datas.address.toString(), En_key).toString(CryptoJS.enc.Utf8))
             setpersion(datas.persion)
-            setpincode(datas.pincode)
-            setplaceimg(datas.place_logo)
+            setpincode(CryptoJS.AES.decrypt(datas.pincode.toString(), En_key).toString(CryptoJS.enc.Utf8))
+            setplaceimg(CryptoJS.AES.decrypt(datas.place_logo.toString(), En_key).toString(CryptoJS.enc.Utf8))
             seterrmsg("")
-            setShow(true)
+            // setsuccessmsg("")
             setaplce("d-none")
+            setsuccessmsg("d-none")
             setuplace("")
+            setShow(true)
+
         })
     }
     const handleClose = () => {
@@ -150,13 +161,14 @@ function Admin() {
     const listall = () => {
         axios.get("http://localhost:7000/api/listusers").then((response) => {
             var datas = []
+        
             for (var i = 0; i < response.data.length; i++) {
                 datas.push({
-                    id: response.data[i].id,
-                    title: response.data[i].name,
-                    year: response.data[i].address,
-                    pincode: response.data[i].pincode,
-                    persion:response.data[i].persion,
+                    id: response.data[i].id ,
+                    title: CryptoJS.AES.decrypt(response.data[i].name.toString(), En_key).toString(CryptoJS.enc.Utf8),
+                    year:  CryptoJS.AES.decrypt(response.data[i].address.toString(), En_key).toString(CryptoJS.enc.Utf8),
+                    pincode:  CryptoJS.AES.decrypt(response.data[i].pincode.toString(), En_key).toString(CryptoJS.enc.Utf8),
+                    persion: response.data[i].persion,
 
                     action: <div><button type="submit" class="btn btn-outline-info mr-2" value={response.data[i].id} onClick={(e) => { listallbyid(e) }}>Edit</button><button type="submit" class="btn btn-outline-info delbtn" value={response.data[i].id} onClick={(e) => { deletelist(e) }}>delete</button></div>
                 })
@@ -178,13 +190,13 @@ function Admin() {
       };
     const updatelist = (e) => {
         var place = {
-            "name":name,
-            "city":city,
-            "state":state,
-            "pincode":pincode,
-            "address":address,
+            "name": CryptoJS.AES.encrypt(name, En_key).toString(),
+            "city":CryptoJS.AES.encrypt(city, En_key).toString(),
+            "state":CryptoJS.AES.encrypt(state, En_key).toString(),
+            "pincode":CryptoJS.AES.encrypt(pincode, En_key).toString(),
+            "address":CryptoJS.AES.encrypt(address, En_key).toString(),
             "persion":persion,
-            "place_logo":placeimg,
+            "place_logo":CryptoJS.AES.encrypt(placeimg, En_key).toString(),
             "id":id
         }
         axios.post("http://localhost:7000/api/updateuser",place).then((response) => {
@@ -201,6 +213,8 @@ function Admin() {
     }
     const addmodal = (e) =>{
         e.preventDefault()
+        setaplce("")
+        setuplace("d-none")
         setname("")
         setcity("")
         setstate("")
