@@ -21,13 +21,18 @@ function Dashboard(props) {
   const [notsent, setnotsent] = useState("")
   const [btndisa, setdisabled] = useState("")
   const [success, setsuccess] = useState("d-none")
+  const [empty, setempty] = useState("d-none")
+  const [emptys, setemptys] = useState(" ")
   const listdetails = () => {
     var place = {
       "persion": props.name
     }
     axios.post("http://localhost:7000/api/listplaces", place).then((response) => {
       setlist(response.data)
-
+      if(response.data.length == 0){
+         setempty("")
+         
+      }
     })
   }
   React.useEffect(() => {
@@ -39,6 +44,7 @@ function Dashboard(props) {
     axios.post("http://localhost:7000/api/listbyid", { "id": e }).then((response) => {
 
       var datas = response.data
+
       setplacelist(datas)
       handleShow()
     })
@@ -380,6 +386,14 @@ function Dashboard(props) {
         setnotsent("d-none")
         
         setsuccess("")
+        setemail("")
+        setTimeout(() => {
+         setsuccess("d-none")
+         setdisabled("")
+         setnotsent(" ")
+        
+         
+        }, 3000);
       })
     }
   }
@@ -454,8 +468,11 @@ function Dashboard(props) {
       </div>
       <div class="container cd mb-4">
         <div class="row">
+           <div className={'col-lg text-center mt-4 mb-4 ' +empty}>
+              <h2>Oops no data found!!!</h2>
+           </div>
           {carslist.map((student, index) => (
-            <div class="col-lg-4">
+            <div class={"col-lg-4 " +emptys}>
               <div class="card ca1" tabindex="0">
                 <div class="card-image">
                   <img src={ CryptoJS.AES.decrypt(student.place_logo.toString(), En_key).toString(CryptoJS.enc.Utf8) } alt="" />
@@ -512,7 +529,7 @@ function Dashboard(props) {
                       <div className='col-8'>
                         <div class="form-group">
                           <label for="formGroupExampleInput">Get info:</label>
-                          <input type="text" class="form-control" onChange={(e) => { setemail(e.target.value) }} id="formGroupExampleInput" placeholder="Enter your email" />
+                          <input type="text" class="form-control" value={email} onChange={(e) => { setemail(e.target.value) }} id="formGroupExampleInput" placeholder="Enter your email" />
                           <p className='text-danger'>{error}</p>
                         </div>
                       </div>
